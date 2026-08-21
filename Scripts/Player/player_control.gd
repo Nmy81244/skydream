@@ -93,6 +93,7 @@ func use_spell(spell_id: String):
 	var timestamp = GlobalDB.timer
 	var duration = GlobalDB.spells(spell_id)["duration"]
 	var delay = GlobalDB.spells(spell_id)["delay"]
+	var applied_buffs = [spell.atk_boost, spell.def_boost, spell.acc_boost, spell.crit_boost, spell.spd_boost]
 	
 	if usable:
 		if spell.element != 0:
@@ -101,7 +102,7 @@ func use_spell(spell_id: String):
 		heal(-spell.health_cost)
 		rest(-spell.mana_cost)
 		if active_spells < $CombatQueue.queue_size/2:
-			active_spells.append([spell_id, timestamp, duration, delay])
+			active_spells.append([spell_id, timestamp, duration, delay, applied_buffs])
 		
 		
 	
@@ -117,7 +118,7 @@ func _ready() -> void:
 	defense = base_defense + current_buffs.def + GlobalDB.tomes(tome)["defense"] + GlobalDB.charms(main_charm)["defense"] + GlobalDB.charms(sec_charm)["defense"] + GlobalDB.daggers(dagger)["defense"] + GlobalDB.souls(soul)["defense"]
 	speed = base_speed + current_buffs.spd + GlobalDB.tomes(tome)["speed"] + GlobalDB.charms(main_charm)["speed"] + GlobalDB.charms(sec_charm)["speed"] + GlobalDB.daggers(dagger)["speed"] + GlobalDB.souls(soul)["speed"]
 	
-	power = base_power + current_buffs.pwr + GlobalDB.tomes(tome)["power"] + GlobalDB.charms(main_charm)["power"] + GlobalDB.charms(sec_charm)["power"] + GlobalDB.daggers(dagger)["power"] + GlobalDB.souls(soul)["power"]
+	power = base_power + current_buffs.atk + GlobalDB.tomes(tome)["power"] + GlobalDB.charms(main_charm)["power"] + GlobalDB.charms(sec_charm)["power"] + GlobalDB.daggers(dagger)["power"] + GlobalDB.souls(soul)["power"]
 	accuracy = base_accuracy + current_buffs.acc + GlobalDB.tomes(tome)["accuracy"] + GlobalDB.charms(main_charm)["accuracy"] + GlobalDB.charms(sec_charm)["accuracy"] + GlobalDB.daggers(dagger)["accuracy"] + GlobalDB.souls(soul)["accuracy"]
 	crit = base_crit + current_buffs.crit + GlobalDB.tomes(tome)["crit"] + GlobalDB.charms(main_charm)["crit"] + GlobalDB.charms(sec_charm)["crit"] + GlobalDB.daggers(dagger)["crit"] + GlobalDB.souls(soul)["crit"]
 	update_stats()
@@ -126,10 +127,21 @@ func _process(delta: float) -> void:
 	mana += 0.2 * delta
 	
 	for spl in active_spells:
+		if GlobalDB.timer < active_spells[spl].timestamp + active_spells[spl].duration:
+			current_buffs.atk += active_spells[spl].applied_buffs[1]
+			current_buffs.def += active_spells[spl].applied_buffs[2]
+			current_buffs.acc += active_spells[spl].applied_buffs[3]
+			current_buffs.crit += active_spells[spl].applied_buffs[4]
+			current_buffs.spd += active_spells[spl].applied_buffs[5]
 		if GlobalDB.timer >= active_spells[spl].timestamp + active_spells[spl].duration:
 			active_spells.remove_at(spl)
 			$CombatQueue.free_action(1, spl)
 
-	for spl in active_spells:
+			current_buffs.atk -= active_spells[spl].applied_buffs[1]
+			current_buffs.def -= active_spells[spl].applied_buffs[2]
+			current_buffs.acc -= active_spells[spl].applied_buffs[3]
+			current_buffs.crit -= active_spells[spl].applied_buffs[4]
+			current_buffs.spd -= active_spells[spl].applied_buffs[5]
+		
 		if GlobalDB.timer >= active_spells[spl].timestamp + active_spells[spl].delay:
 			usable == true;
