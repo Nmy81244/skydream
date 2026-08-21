@@ -1,11 +1,14 @@
 extends Node
 
-var enemies = $Enemies.enemies
-var queue = $CombatQueue.queue
-var enemy_queue = $CombatQueue.enemy_queue
+var enemies = []
+var queue = []
+var enemy_queue = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	enemies = $Enemies.enemies
+	queue = $CombatQueue.queue
+	enemy_queue = $CombatQueue.enemy_queue
 	pass # Replace with function body.
 
 

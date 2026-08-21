@@ -38,9 +38,6 @@ func clear_enemies():
 
 func update_stats():
 	for enemy in enemies:
-		enemy.max_health += current_buffs.hp
-		enemy.max_mana += current_buffs.mp
-			
 		enemy.attack += current_buffs.atk
 		enemy.defense += current_buffs.def
 		enemy.speed += current_buffs.spd

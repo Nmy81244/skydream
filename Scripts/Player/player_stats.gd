@@ -2,11 +2,7 @@ extends Node
 
 var xp = 0
 var level = 1
-
 var pearls = 0
-
-var gold = 0
-
 var base_stats = level_calc(level)
 
 var health = 100;
@@ -118,4 +114,5 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	mana += 1
 	var i = 0
+	i += 1
 	print(i)
