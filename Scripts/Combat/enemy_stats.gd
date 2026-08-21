@@ -57,5 +57,17 @@ func _ready() -> void:
 	
 	match enemies.size():
 		1:
-			$"1/AnimatedSprite2D".play(enemies[0].id)
+			$"1/Enemy1".play(enemies[0].id)
+		2:
+			$"2/Enemy1".play(enemies[0].id)
+			$"2/Enemy2".play(enemies[1].id)
+		3:
+			$"3/Enemy1".play(enemies[0].id)
+			$"3/Enemy2".play(enemies[1].id)
+			$"3/Enemy4".play(enemies[2].id)
+		4:
+			$"4/Enemy1".play(enemies[0].id)
+			$"4/Enemy2".play(enemies[1].id)
+			$"4/Enemy3".play(enemies[2].id)
+			$"4/Enemy4".play(enemies[3].id)
 	update_stats()
