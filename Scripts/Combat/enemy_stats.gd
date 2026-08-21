@@ -28,7 +28,7 @@ func rest(target: int, mrcv: int):
 	
 func load_enemies(list: Array):
 	for enemy in list:
-		enemies.append(ItemDB.enemies(enemy))
+		enemies.append(GlobalDB.enemies(enemy))
 		
 	update_stats();
 	

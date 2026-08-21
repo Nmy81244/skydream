@@ -15,12 +15,10 @@ func start_fight(enemy_num: int, type: int):
 	queue_size = (enemy_count + 1) * (fight_type + 1)
 
 func add_action(author: int, input_id: String, type: int): # 1A 2S 3E 4C 5D
-	var action = [author, input_id, type]
-	
-	if author == 0 && type == 2:
-		PlayerStats.use_spell(input_id)
-	if author == 1 && type == 2:
-		$Enemies.use_spell(action)
+	var duration = GlobalDB.spells(input_id)["duration"]
+	var ind = queue.size()
+	var jnd = enemy_queue.size()
+	var action = [author, ind, jnd, input_id, type, duration]
 
 	if queue.size() < queue_size:
 		if author:
@@ -29,12 +27,11 @@ func add_action(author: int, input_id: String, type: int): # 1A 2S 3E 4C 5D
 		else:
 			if enemy_queue.size() < queue_size/2:
 				enemy_queue.append(action)
+				
 	queue.append(action)
-
+	
 func free_action(author: bool, index: int):
 	if author:
 		player_queue.remove_at(index)
 	else:
 		enemy_queue.remove_at(index)
-	
-	

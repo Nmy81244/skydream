@@ -1,5 +1,7 @@
-# item_database.gd (Autoload: ItemDB)
+# item_database.gd (Autoload: GlobalDB)
 extends Node
+
+var timer = 0.0
 
 var souls_data: Dictionary = {}
 var daggers_data: Dictionary = {}
@@ -43,3 +45,7 @@ func consumables(id: String) -> Dictionary:
 	
 func enemies(id: String) -> Dictionary:
 	return enemies_data.get(id, enemies_data.get("000"))
+
+func _process(delta: float) -> void:
+	timer += delta
+	print(timer)

@@ -14,8 +14,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	for enemy in enemies:
-		ai_logic(enemies[enemy].id, enemy)
+	for enemy_i in enemies.size():
+		ai_logic(enemies[enemy_i].id, enemy_i)
 		
 	pass
 	

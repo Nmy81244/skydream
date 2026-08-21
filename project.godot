@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-ItemDB="*uid://dxh8jh1r1o6wb"
+GlobalDB="*uid://dxh8jh1r1o6wb"
 PlayerStats="*uid://p48mj6udasx1"
 
 [display]
