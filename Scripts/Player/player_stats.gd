@@ -94,6 +94,8 @@ func update_stats():
 	while xp >= xp_for_level(level + 1) && level < 100:
 		level += 1
 		
+	
+func _ready() -> void:
 	max_health = base_max_hp + ItemDB.tomes(tome)["health"] + ItemDB.charms(main_charm)["health"] + ItemDB.charms(sec_charm)["health"] + ItemDB.daggers(dagger)["health"] + ItemDB.souls(soul)["health"]
 	max_mana = base_max_mp + ItemDB.tomes(tome)["mana"] + ItemDB.charms(main_charm)["mana"] + ItemDB.charms(sec_charm)["mana"] + ItemDB.daggers(dagger)["mana"] + ItemDB.souls(soul)["mana"]
 		
@@ -104,6 +106,7 @@ func update_stats():
 	power = base_power + current_buffs.pwr + ItemDB.tomes(tome)["power"] + ItemDB.charms(main_charm)["power"] + ItemDB.charms(sec_charm)["power"] + ItemDB.daggers(dagger)["power"] + ItemDB.souls(soul)["power"]
 	accuracy = base_accuracy + current_buffs.acc + ItemDB.tomes(tome)["accuracy"] + ItemDB.charms(main_charm)["accuracy"] + ItemDB.charms(sec_charm)["accuracy"] + ItemDB.daggers(dagger)["accuracy"] + ItemDB.souls(soul)["accuracy"]
 	crit = base_crit + current_buffs.crit + ItemDB.tomes(tome)["crit"] + ItemDB.charms(main_charm)["crit"] + ItemDB.charms(sec_charm)["crit"] + ItemDB.daggers(dagger)["crit"] + ItemDB.souls(soul)["crit"]
-	
-func _ready() -> void:
 	update_stats()
+	
+func _process(delta: float) -> void:
+	mana += 1

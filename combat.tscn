@@ -1,10 +1,13 @@
 [gd_scene format=3 uid="uid://dvamvy7fut84e"]
 
 [ext_resource type="Texture2D" uid="uid://b4w68b6usb7rf" path="res://Loose/Sprites/Lalal.png" id="1_raif2"]
+[ext_resource type="Script" uid="uid://pxm1p1oay82x" path="res://Scripts/Combat/enemy_logic.gd" id="1_syqip"]
 [ext_resource type="Script" uid="uid://ce0tcgub3e614" path="res://Scripts/Combat/enemy_stats.gd" id="2_ga4lu"]
 [ext_resource type="Texture2D" uid="uid://c064rlcxy3l6m" path="res://Loose/Sprites/grass_tileset_16x16.png" id="3_fvoc2"]
 [ext_resource type="Texture2D" uid="uid://dt5yrlk2auwra" path="res://Loose/Sprites/nebulae.png" id="3_u30h6"]
 [ext_resource type="Script" uid="uid://dhq3gwv3mjnk2" path="res://Scripts/Combat/combat_queue.gd" id="4_fvoc2"]
+[ext_resource type="Texture2D" uid="uid://dhcmsut7euw0h" path="res://Loose/Sprites/DS _ DSi - Pokemon Black _ White - Miscellaneous - Large Mugs.png" id="6_fvoc2"]
+[ext_resource type="AudioStream" uid="uid://djt52xwcsagq4" path="res://Loose/Music/toby_fox_-_Here_We_Are_true_lab_(mp3.pm).mp3" id="7_v7dqf"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_83bas"]
 animations = [{
@@ -52,7 +55,23 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_syqip"]
+atlas = ExtResource("6_fvoc2")
+region = Rect2(136, 34, 136, 168)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kufxs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_syqip")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Combat" type="Node2D" unique_id=1054953121]
+script = ExtResource("1_syqip")
 
 [node name="BG" type="AnimatedSprite2D" parent="." unique_id=1053217128]
 sprite_frames = SubResource("SpriteFrames_83bas")
@@ -124,3 +143,14 @@ animation = &"000"
 
 [node name="CombatQueue" type="Node" parent="." unique_id=1660302289]
 script = ExtResource("4_fvoc2")
+
+[node name="Player" type="AnimatedSprite2D" parent="." unique_id=1570452089]
+position = Vector2(-556, 307)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_kufxs")
+
+[node name="TobyFoxHereWeAreTrueLab(mp3_pm)" type="AudioStreamPlayer2D" parent="." unique_id=185074993]
+position = Vector2(-429, 147)
+stream = ExtResource("7_v7dqf")
+autoplay = true
+parameters/looping = true
