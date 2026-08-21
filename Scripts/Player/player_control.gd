@@ -56,6 +56,8 @@ class buffs:
 	
 var current_buffs = buffs.new()
 
+var usable = []
+
 const XP_MULT = 50.0
 
 func xp_for_level(level: int) -> float:
@@ -91,14 +93,17 @@ func use_spell(spell_id: String):
 	var timestamp = GlobalDB.timer
 	var duration = GlobalDB.spells(spell_id)["duration"]
 	var delay = GlobalDB.spells(spell_id)["delay"]
-
-	$CombatQueue.add_action(1, spell_id, 2)
 	
-	heal(-spell.health_cost)
-	rest(-spell.mana_cost)
-	if active_spells < $CombatQueue.queue_size/2:
-		active_spells.append([spell_id, timestamp, duration, delay])
-	
+	if usable:
+		if spell.element != 0:
+			$CombatQueue.add_action(1, spell_id, 2)
+		
+		heal(-spell.health_cost)
+		rest(-spell.mana_cost)
+		if active_spells < $CombatQueue.queue_size/2:
+			active_spells.append([spell_id, timestamp, duration, delay])
+		
+		
 	
 func update_stats():
 	while xp >= xp_for_level(level + 1) && level < 100:
@@ -124,3 +129,7 @@ func _process(delta: float) -> void:
 		if GlobalDB.timer >= active_spells[spl].timestamp + active_spells[spl].duration:
 			active_spells.remove_at(spl)
 			$CombatQueue.free_action(1, spl)
+
+	for spl in active_spells:
+		if GlobalDB.timer >= active_spells[spl].timestamp + active_spells[spl].delay:
+			usable == true;
