@@ -7,10 +7,7 @@ var tomes_data: Dictionary = {}
 var charms_data: Dictionary = {}
 var spells_data: Dictionary = {}
 var consumables_data: Dictionary = {}
-<<<<<<< HEAD
 var enemies_data: Dictionary = {}
-=======
->>>>>>> refs/remotes/origin/main
 
 func _ready():
 	souls_data = _load_json("res://Tables/Equip/souls.json")
@@ -19,11 +16,7 @@ func _ready():
 	charms_data = _load_json("res://Tables/Equip/charms.json")	
 	spells_data = _load_json("res://Tables/Items/spells.json")
 	consumables_data = _load_json("res://Tables/Items/consumables.json")
-<<<<<<< HEAD
 	enemies_data = _load_json("res://Tables/Characters/enemies.json")
-	
-=======
->>>>>>> refs/remotes/origin/main
 
 func _load_json(path: String) -> Dictionary:
 	var file = FileAccess.open(path, FileAccess.READ)
@@ -47,9 +40,6 @@ func spells(id: String) -> Dictionary:
 
 func consumables(id: String) -> Dictionary:
 	return consumables_data.get(id, consumables_data.get("000"))
-<<<<<<< HEAD
 	
 func enemies(id: String) -> Dictionary:
 	return enemies_data.get(id, enemies_data.get("000"))
-=======
->>>>>>> refs/remotes/origin/main

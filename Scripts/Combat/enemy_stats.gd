@@ -1,6 +1,6 @@
 extends Node
 
-<<<<<<< HEAD
+
 var enemies = []
 
 var soul = "001"
@@ -61,14 +61,3 @@ func update_stats():
 
 func _ready() -> void:
 	update_stats()
-=======
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
->>>>>>> refs/remotes/origin/main
