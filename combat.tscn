@@ -29,7 +29,7 @@ animations = [{
 
 [node name="BG" type="AnimatedSprite2D" parent="." unique_id=1053217128]
 sprite_frames = SubResource("SpriteFrames_83bas")
-frame_progress = 0.9465673
+frame_progress = 0.02047313
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=402603682]
 zoom = Vector2(0.24, 0.24)

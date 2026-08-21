@@ -1,0 +1,14 @@
+{
+	"000000": {
+	"name": "",
+	"power": 0,
+	"accuracy": 0,
+	"healing": 0,
+	"rest": 0,
+	"atk_boost": 0,
+	"def_boost": 0,
+	"acc_boost": 0,
+	"crit_boost": 0,
+	"cooldown": 0,
+  }
+}
