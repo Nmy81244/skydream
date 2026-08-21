@@ -1,0 +1,18 @@
+{
+	"000": {
+	"name": "",
+	"attack": 0,
+	"defense": 0,
+	"power": 0,
+	"accuracy": 0,
+	"crit": 0
+  },
+  "001": {
+	"name": "Simple Necklace",
+	"attack": 0,
+	"defense": 1,
+	"power": 0,
+	"accuracy": 2,
+	"crit": 0
+  },
+}

@@ -1,0 +1,26 @@
+{
+  "000": {
+	"name": "",
+	"attack": 0,
+	"defense": 0,
+	"power": 0,
+	"accuracy": 0,
+	"crit": 0
+  },	
+  "001": {
+	"name": "Clear Soul",
+	"attack": 0,
+	"defense": 3,
+	"power": 1,
+	"accuracy": 0,
+	"crit": 0
+  },
+  "002": {
+	"name": "Rain Soul",
+	"attack": 1,
+	"defense": 2,
+	"power": 3,
+	"accuracy": 1,
+	"crit": 0
+  },
+}

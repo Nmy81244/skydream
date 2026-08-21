@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dvamvy7fut84e"]
+
+[ext_resource type="Texture2D" uid="uid://b4w68b6usb7rf" path="res://Loose/Sprites/Lalal.png" id="1_raif2"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_83bas"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_raif2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_raif2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_raif2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_raif2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_raif2")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 1.0
+}]
+
+[node name="Combat" type="Node2D" unique_id=1054953121]
+
+[node name="BG" type="AnimatedSprite2D" parent="." unique_id=1053217128]
+sprite_frames = SubResource("SpriteFrames_83bas")
+frame_progress = 0.9465673
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=402603682]
+zoom = Vector2(0.24, 0.24)
