@@ -70,32 +70,32 @@ func level_calc(target_level: int) -> level_data:
 	var result = level_data.new()
 	result.level = target_level
 	result.xp = xp_for_level(level)
-	result.base_hp = result.base_hp + round(80*log(target_level))
-	result.base_mp = result.base_mp + round(64*log(target_level))
-	result.base_atk = result.base_atk + round(15*log(target_level))
-	result.base_def = result.base_def + round(16*log(target_level))
-	result.base_pwr = result.base_pwr + round(10*log(target_level))
-	result.base_acc = result.base_acc + round(16*log(target_level))
-	result.base_spd = result.base_spd + round(8*log(target_level))
-	result.base_crit = result.base_crit + round(2*log(target_level))
+	result.base_hp += round(80*log(target_level))
+	result.base_mp += round(64*log(target_level))
+	result.base_atk += round(15*log(target_level))
+	result.base_def += round(16*log(target_level))
+	result.base_pwr += round(10*log(target_level))
+	result.base_acc += round(16*log(target_level))
+	result.base_spd += round(8*log(target_level))
+	result.base_crit += round(2*log(target_level))
 	
 	
 	return result
 	
 func heal(hpwr: int):
-	health = health + hpwr
-	health.cramp(max_health)
+	health += hpwr
+	health = clamp(health, 0, max_health)
 	
 func rest(mrcv: int):
-	mana = mana + mrcv
-	mana.cramp(max_mana)
+	mana += mrcv
+	mana = clamp(mana, 0, max_mana)
 	
 func update_stats():
 	while xp >= xp_for_level(level + 1) && level < 100:
 		level += 1
 		
-	max_health = base_max_hp + current_buffs.atk + ItemDB.tomes(tome)["health"] + ItemDB.charms(main_charm)["health"] + ItemDB.charms(sec_charm)["health"] + ItemDB.daggers(dagger)["health"] + ItemDB.souls(soul)["health"]
-	max_mana = base_max_mp + current_buffs.atk + ItemDB.tomes(tome)["mana"] + ItemDB.charms(main_charm)["mana"] + ItemDB.charms(sec_charm)["mana"] + ItemDB.daggers(dagger)["mana"] + ItemDB.souls(soul)["mana"]
+	max_health = base_max_hp + ItemDB.tomes(tome)["health"] + ItemDB.charms(main_charm)["health"] + ItemDB.charms(sec_charm)["health"] + ItemDB.daggers(dagger)["health"] + ItemDB.souls(soul)["health"]
+	max_mana = base_max_mp + ItemDB.tomes(tome)["mana"] + ItemDB.charms(main_charm)["mana"] + ItemDB.charms(sec_charm)["mana"] + ItemDB.daggers(dagger)["mana"] + ItemDB.souls(soul)["mana"]
 		
 	attack = base_attack + current_buffs.atk + ItemDB.tomes(tome)["attack"] + ItemDB.charms(main_charm)["attack"] + ItemDB.charms(sec_charm)["attack"] + ItemDB.daggers(dagger)["attack"] + ItemDB.souls(soul)["attack"]
 	defense = base_defense + current_buffs.def + ItemDB.tomes(tome)["defense"] + ItemDB.charms(main_charm)["defense"] + ItemDB.charms(sec_charm)["defense"] + ItemDB.daggers(dagger)["defense"] + ItemDB.souls(soul)["defense"]
