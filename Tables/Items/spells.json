@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 { 
+=======
+{
+>>>>>>> refs/remotes/origin/main
 	"000000": {
 	"name": "",
 	"element": 0,
@@ -12,6 +16,7 @@
 	"def_boost": 0,
 	"acc_boost": 0,
 	"crit_boost": 0,
+<<<<<<< HEAD
 	"spd_boost": 0,
 	"duration": 0,
 	"cooldown": 0,
@@ -55,6 +60,12 @@
 	"element": 0,
 	"health_cost": 0,
 	"mana_cost": 65,
+=======
+	"cooldown": 0,
+  },
+	"041041": {
+	"name": "Nefarious Plan",
+>>>>>>> refs/remotes/origin/main
 	"power": 0,
 	"accuracy": 100,
 	"healing": 0,
@@ -63,8 +74,24 @@
 	"def_boost": 0,
 	"acc_boost": 0,
 	"crit_boost": 10,
+<<<<<<< HEAD
 	"spd_boost": 10,
 	"duration": 8,
 	"cooldown": 10,
+=======
+	"cooldown": 0,
+  },
+	"740740": {
+	"name": "Mind Cleanse",
+	"power": 80,
+	"accuracy": 100,
+	"healing": 100,
+	"rest": 80,
+	"atk_boost": 0,
+	"def_boost": 0,
+	"acc_boost": 0,
+	"crit_boost": 0,
+	"cooldown": 0,
+>>>>>>> refs/remotes/origin/main
   },
 }

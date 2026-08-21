@@ -2,7 +2,11 @@ extends Node
 
 var xp = 0
 var level = 1
+<<<<<<< HEAD
 var pearls = 0
+=======
+var gold = 0
+>>>>>>> refs/remotes/origin/main
 var base_stats = level_calc(level)
 
 var health = 100;
@@ -36,12 +40,21 @@ class level_data:
 	var xp
 	var base_hp = 100
 	var base_mp = 80
+<<<<<<< HEAD
 	var base_atk = 0
 	var base_def = 0
 	var base_pwr = 0
 	var base_acc = 0
 	var base_crit = 3
 	var base_spd = 0
+=======
+	var base_atk
+	var base_def
+	var base_pwr
+	var base_acc
+	var base_crit = 3
+	var base_spd
+>>>>>>> refs/remotes/origin/main
 
 class buffs:
 	var atk = 0
