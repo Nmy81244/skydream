@@ -1,13 +1,26 @@
 {
 	"000": {
-	"name": "",
-	"health": 0,
-	"mana": 0,
-	"attack": 0,
-	"defense": 0,
-	"power": 0,
-	"accuracy": 0,
-	"speed": 0,
-	"crit": 0
-  },
+		"name": "",
+		"health": 0.0,
+		"atk_spd": 0.0,
+		"mana": 0.0,
+		"attack": 0.0,
+		"defense": 0.0,
+		"power": 0.0,
+		"accuracy": 0.0,
+		"speed": 0.0,
+		"crit": 0.0
+	},
+	"001": {
+		"name": "Kitchen Knife",
+		"health": 0.0,
+		"atk_spd": 1.0,
+		"mana": 0.0,
+		"attack": 2.0,
+		"defense": 0.0,
+		"power": 0.0,
+		"accuracy": 1.0,
+		"speed": 0.0,
+		"crit": 0.0
+	}
 }

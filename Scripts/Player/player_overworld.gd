@@ -7,9 +7,9 @@ var input_dir = Vector2.ZERO
 var direction = 0 # 0D - 1L - 2U - 3R
 
 func _physics_process(_delta: float) -> void:
-	input_dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	input_dir = Input.get_vector("mv_left", "mv_right", "mv_up", "mv_down")
 	
-	if Input.is_action_pressed("Run"):
+	if Input.is_action_pressed("run_b"):
 		running = true
 	else:
 		running = false
@@ -53,6 +53,3 @@ func render_animations():
 	else:
 		$AnimatedSprite2D.play("idle")
 		$AnimatedSprite2D.frame = direction
-		
-
-		

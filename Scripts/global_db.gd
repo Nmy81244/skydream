@@ -48,4 +48,3 @@ func enemies(id: String) -> Dictionary:
 
 func _process(delta: float) -> void:
 	timer += delta
-	print(timer)

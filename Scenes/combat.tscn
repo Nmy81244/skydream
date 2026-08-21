@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://jym4lkvk8bd8"]
+[gd_scene format=3 uid="uid://dvamvy7fut84e"]
 
 [ext_resource type="Texture2D" uid="uid://b4w68b6usb7rf" path="res://Loose/Sprites/Lalal.png" id="1_raif2"]
 [ext_resource type="Script" uid="uid://pxm1p1oay82x" path="res://Scripts/Combat/enemy_logic.gd" id="1_syqip"]

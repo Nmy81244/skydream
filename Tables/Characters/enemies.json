@@ -1,40 +1,42 @@
 {
-  "000": {
-	"id": "000",
-	"name": "",
-	"pearls": 0,
-	"health": 0,
-	"max_health": 0,
-	"mana": 0,
-	"max_mana": 0,
-	"attack": 0,
-	"defense": 0,
-	"power": 0,
-	"accuracy": 0,
-	"speed": 0,
-	"crit": 0,
-	"weakness": 0,
-	"spells": [
-      "000"
-	]
-  },
-  "001": {
-	"id": "001",
-	"name": "Little Nebulae",
-	"pearls": 4,
-	"health": 40,
-	"max_health": 40,
-	"mana": 80,
-	"max_mana": 80,
-	"attack": 0,
-	"defense": 2,
-	"power": 3,
-	"accuracy": 5,
-	"speed": 1,
-	"crit": 3,
-	"weakness": 13,
-	"spells": [
-      "101801"
-	]
-  }
+	"000": {
+		"id": "000",
+		"name": "",
+		"pearls": 0.0,
+		"health": 0.0,
+		"max_health": 0.0,
+		"mana": 0.0,
+		"max_mana": 0.0,
+		"attack": 0.0,
+		"defense": 0.0,
+		"power": 0.0,
+		"accuracy": 0.0,
+		"speed": 0.0,
+		"crit": 0.0,
+		"weakness": 0.0,
+		"atk_spd": 0.0,
+		"spells": [
+			"000"
+		]
+	},
+	"001": {
+		"id": "001",
+		"name": "Little Nebulae",
+		"pearls": 4.0,
+		"health": 40.0,
+		"max_health": 40.0,
+		"mana": 80.0,
+		"max_mana": 80.0,
+		"attack": 0.0,
+		"defense": 2.0,
+		"power": 3.0,
+		"accuracy": 5.0,
+		"speed": 1.0,
+		"crit": 3.0,
+		"weakness": 13.0,
+		"atk_spd": 3.0,
+		"spells": [
+			"101801"
+		]
+	}
 }

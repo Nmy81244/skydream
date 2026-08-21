@@ -1,4 +1,4 @@
-[gd_scene format=4 uid="uid://wvbpa8whd4mu"]
+[gd_scene format=4 uid="uid://dtayeb36v0lqk"]
 
 [ext_resource type="PackedScene" uid="uid://pn4pealyawtf" path="res://player.tscn" id="1_cegc5"]
 [ext_resource type="Texture2D" uid="uid://uwh3dxys3qr2" path="res://Loose/Sprites/mystic_woods_free_2.2/sprites/tilesets/plains.png" id="1_erduv"]
@@ -147,6 +147,5 @@ scale = Vector2(0.9999999, 0.9999999)
 sprite_frames = SubResource("SpriteFrames_osjsv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="world/Nebulae" unique_id=1348944022]
-z_index = 6
 scale = Vector2(0.9999999, 0.9999999)
 shape = SubResource("CircleShape2D_osjsv")
