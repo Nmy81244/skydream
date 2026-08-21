@@ -2,6 +2,7 @@
   "000": {
 	"id": "000",
 	"name": "",
+	"pearls": 0,
 	"health": 0,
 	"max_health": 0,
 	"mana": 0,
@@ -20,6 +21,7 @@
   "001": {
 	"id": "001",
 	"name": "Little Nebulae",
+	"pearls": 4,
 	"health": 40,
 	"max_health": 40,
 	"mana": 80,

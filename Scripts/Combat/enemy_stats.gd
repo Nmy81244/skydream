@@ -8,8 +8,6 @@ class stats_data:
 	var pearls
 
 class buffs:
-	var hp = 0
-	var mp = 0
 	var atk = 0
 	var def = 0
 	var acc = 0
@@ -53,6 +51,7 @@ func update_stats():
 		
 
 func _ready() -> void:
+	clear_enemies()
 	load_enemies(["001"])
 	
 	match enemies.size():

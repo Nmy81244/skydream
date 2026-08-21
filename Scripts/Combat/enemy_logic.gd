@@ -21,6 +21,7 @@ func ai_logic(enemy: String, index: int):
 	
 	match enemy:
 		"001":
-			if enemy_char.mp
+			if enemy_char.mana == 80:
+				$CombatQueue.add_action(0, "101801", 2)
 			
 	pass

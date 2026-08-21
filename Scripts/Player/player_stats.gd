@@ -90,6 +90,13 @@ func rest(mrcv: int):
 	mana += mrcv
 	mana = clamp(mana, 0, max_mana)
 	
+func use_spell(spell_id: String):
+	var spell = ItemDB.spells(spell_id)
+	heal(-spell.health_cost)
+	rest(-spell.mana_cost)
+	
+	
+	
 func update_stats():
 	while xp >= xp_for_level(level + 1) && level < 100:
 		level += 1
@@ -110,3 +117,5 @@ func _ready() -> void:
 	
 func _process(delta: float) -> void:
 	mana += 1
+	var i = 0
+	print(i)
