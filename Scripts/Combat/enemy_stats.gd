@@ -64,7 +64,7 @@ func _ready() -> void:
 		3:
 			$"3/Enemy1".play(enemies[0].id)
 			$"3/Enemy2".play(enemies[1].id)
-			$"3/Enemy4".play(enemies[2].id)
+			$"3/Enemy3".play(enemies[2].id)
 		4:
 			$"4/Enemy1".play(enemies[0].id)
 			$"4/Enemy2".play(enemies[1].id)
