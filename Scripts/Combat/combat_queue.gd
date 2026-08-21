@@ -6,11 +6,13 @@ var enemy_count = 0
 var player_queue = []
 var enemy_queue = []
 var queue = []
-var queue_size = (enemy_count + 1) * (fight_type + 1)
+var queue_size = 0
 
 func start_fight(enemy_num: int, type: int):
 	enemy_count = enemy_num
 	fight_type = type
+	
+	queue_size = (enemy_count + 1) * (fight_type + 1)
 
 func add_action(author: bool, action: String):
 	if queue.size() < queue_size:

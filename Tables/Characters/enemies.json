@@ -1,5 +1,6 @@
 {
   "000": {
+	"id": "000",
 	"name": "",
 	"health": 0,
 	"max_health": 0,
@@ -13,10 +14,11 @@
 	"crit": 0,
 	"weakness": 0,
 	"spells": [
-		"000"
+      "000"
 	]
-},
+  },
   "001": {
+	"id": "001",
 	"name": "Little Nebulae",
 	"health": 40,
 	"max_health": 40,
@@ -30,7 +32,7 @@
 	"crit": 3,
 	"weakness": 13,
 	"spells": [
-		"101801"
-	]	
+      "101801"
+	]
   }
 }

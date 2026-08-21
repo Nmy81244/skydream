@@ -1,6 +1,10 @@
 [gd_scene format=3 uid="uid://dvamvy7fut84e"]
 
 [ext_resource type="Texture2D" uid="uid://b4w68b6usb7rf" path="res://Loose/Sprites/Lalal.png" id="1_raif2"]
+[ext_resource type="Script" uid="uid://ce0tcgub3e614" path="res://Scripts/Combat/enemy_stats.gd" id="2_ga4lu"]
+[ext_resource type="Texture2D" uid="uid://c064rlcxy3l6m" path="res://Loose/Sprites/grass_tileset_16x16.png" id="3_fvoc2"]
+[ext_resource type="Texture2D" uid="uid://dt5yrlk2auwra" path="res://Loose/Sprites/nebulae.png" id="3_u30h6"]
+[ext_resource type="Script" uid="uid://dhq3gwv3mjnk2" path="res://Scripts/Combat/combat_queue.gd" id="4_fvoc2"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_83bas"]
 animations = [{
@@ -25,6 +29,29 @@ animations = [{
 "speed": 1.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_v7dqf"]
+atlas = ExtResource("3_fvoc2")
+region = Rect2(128, 128, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_osjsv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v7dqf")
+}],
+"loop": 1,
+"name": &"000",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_u30h6")
+}],
+"loop": 1,
+"name": &"001",
+"speed": 5.0
+}]
+
 [node name="Combat" type="Node2D" unique_id=1054953121]
 
 [node name="BG" type="AnimatedSprite2D" parent="." unique_id=1053217128]
@@ -33,3 +60,22 @@ frame_progress = 0.02047313
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=402603682]
 zoom = Vector2(0.24, 0.24)
+
+[node name="Enemies" type="Node2D" parent="." unique_id=1691180024]
+script = ExtResource("2_ga4lu")
+
+[node name="1" type="Node2D" parent="Enemies" unique_id=34587362]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Enemies/1" unique_id=654330038]
+position = Vector2(125, -295)
+sprite_frames = SubResource("SpriteFrames_osjsv")
+animation = &"000"
+
+[node name="2" type="Node2D" parent="Enemies" unique_id=2054538924]
+
+[node name="3" type="Node2D" parent="Enemies" unique_id=813646318]
+
+[node name="4" type="Node2D" parent="Enemies" unique_id=610336250]
+
+[node name="CombatQueue" type="Node" parent="." unique_id=1660302289]
+script = ExtResource("4_fvoc2")

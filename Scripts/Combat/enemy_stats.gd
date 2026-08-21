@@ -1,13 +1,6 @@
 extends Node
 
-
 var enemies = []
-
-var soul = "001"
-var dagger = "000"
-var tome = "000"
-var main_charm = "001"
-var sec_charm = "000"
 
 class stats_data:
 	var level
@@ -60,4 +53,9 @@ func update_stats():
 		
 
 func _ready() -> void:
+	load_enemies(["001"])
+	
+	match enemies.size():
+		1:
+			$"1/AnimatedSprite2D".play(enemies[0].id)
 	update_stats()
