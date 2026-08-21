@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://pn4pealyawtf"]
 
 [ext_resource type="Texture2D" uid="uid://dewlyxcebnc4v" path="res://Loose/Sprites/Placeholderplyr.png" id="1_f50pn"]
-[ext_resource type="Script" uid="uid://p48mj6udasx1" path="res://player_stats.gd" id="1_i3pqv"]
-[ext_resource type="Script" uid="uid://b124ehnkd83e4" path="res://Scripts/player_overworld.gd" id="1_ij6vw"]
+[ext_resource type="Script" uid="uid://b124ehnkd83e4" path="res://Scripts/Player/player_overworld.gd" id="1_hqtel"]
 [ext_resource type="Texture2D" uid="uid://dok54dif8iybf" path="res://Loose/Sprites/Placeholdrun.png" id="3_ghijl"]
+[ext_resource type="Script" uid="uid://p48mj6udasx1" path="res://Scripts/Player/player_stats.gd" id="4_sweqy"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w0402"]
 radius = 1.9999906
@@ -278,7 +278,7 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D" unique_id=71749892]
-script = ExtResource("1_ij6vw")
+script = ExtResource("1_hqtel")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1813740773]
 rotation = -1.5738606
@@ -290,4 +290,4 @@ sprite_frames = SubResource("SpriteFrames_osjsv")
 animation = &"idle"
 
 [node name="Stats" type="Node" parent="." unique_id=1610804621]
-script = ExtResource("1_i3pqv")
+script = ExtResource("4_sweqy")
