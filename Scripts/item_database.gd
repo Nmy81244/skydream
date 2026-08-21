@@ -5,12 +5,16 @@ var souls_data: Dictionary = {}
 var daggers_data: Dictionary = {}
 var tomes_data: Dictionary = {}
 var charms_data: Dictionary = {}
+var spells_data: Dictionary = {}
+var consumables_data: Dictionary = {}
 
 func _ready():
 	souls_data = _load_json("res://Tables/Equip/souls.json")
 	daggers_data = _load_json("res://Tables/Equip/daggers.json")
 	tomes_data = _load_json("res://Tables/Equip/tomes.json")
-	charms_data = _load_json("res://Tables/Equip/charms.json")
+	charms_data = _load_json("res://Tables/Equip/charms.json")	
+	spells_data = _load_json("res://Tables/Items/spells.json")
+	consumables_data = _load_json("res://Tables/Items/consumables.json")
 
 func _load_json(path: String) -> Dictionary:
 	var file = FileAccess.open(path, FileAccess.READ)
@@ -28,3 +32,9 @@ func tomes(id: String) -> Dictionary:
 
 func charms(id: String) -> Dictionary:
 	return charms_data.get(id, charms_data.get("000"))
+
+func spells(id: String) -> Dictionary:
+	return spells_data.get(id, spells_data.get("000"))
+
+func consumables(id: String) -> Dictionary:
+	return consumables_data.get(id, consumables_data.get("000"))

@@ -43,17 +43,16 @@ func _physics_process(_delta: float) -> void:
 	move_and_slide()
 
 func render_animations():
-	if !walking:
-		$AnimatedSprite2D.play("idle")
-		$AnimatedSprite2D.frame = direction
-		
-	elif running:
+	if running && walking:
 		$AnimatedSprite2D.play("run_%s" % direction)
-		$AnimatedSprite2D.speed_scale = clamp(input_dir.length(), 0.3, 1.0)
 		
 	elif walking:
 		$AnimatedSprite2D.play("walk_%s" % direction)
 		$AnimatedSprite2D.speed_scale = clamp(input_dir.length(), 0.3, 1.0)
+	
+	else:
+		$AnimatedSprite2D.play("idle")
+		$AnimatedSprite2D.frame = direction
 		
 
 		

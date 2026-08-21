@@ -1,5 +1,5 @@
 {
-	"000": {
+	"000000": {
 	"name": "",
 	"power": 0,
 	"accuracy": 0,
@@ -8,6 +8,31 @@
 	"atk_boost": 0,
 	"def_boost": 0,
 	"acc_boost": 0,
-	"crit_boost": 0
+	"crit_boost": 0,
+	"cooldown": 0,
+  },
+	"041041": {
+	"name": "Nefarious Plan",
+	"power": 0,
+	"accuracy": 100,
+	"healing": 0,
+	"rest": 0,
+	"atk_boost": 25,
+	"def_boost": 0,
+	"acc_boost": 0,
+	"crit_boost": 10,
+	"cooldown": 0,
+  },
+	"740740": {
+	"name": "Mind Cleanse",
+	"power": 80,
+	"accuracy": 100,
+	"healing": 100,
+	"rest": 80,
+	"atk_boost": 0,
+	"def_boost": 0,
+	"acc_boost": 0,
+	"crit_boost": 0,
+	"cooldown": 0,
   },
 }
