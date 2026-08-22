@@ -57,23 +57,25 @@ func _player_stats() -> Dictionary:
 var _last_debug_second := -1
 
 func _ready() -> void:
-	# Resolve label nodes defensively
-	player_label = get_node_or_null("Player_Perc")
-	if player_label == null:
-		player_label = get_node_or_null("UI/Control/Player_Perc")
-		if player_label == null:
-			player_label = get_tree().get_current_scene().get_node_or_null("Player_Perc")
-	queue_label = get_node_or_null("Queue")
-	if queue_label == null:
-		queue_label = get_node_or_null("UI/Control/Queue")
-		if queue_label == null:
-			queue_label = get_tree().get_current_scene().get_node_or_null("Queue")
+	# Resolve label nodes defensively. Support running as an autoload/singleton or as a Control in the scene.
+	var root = get_tree().get_root()
+	# find_node(name, recursive=true, owned=true) - search entire tree for nodes named Player_Perc / Queue
+	var node_p = root.find_node("Player_Perc", true, false)
+	if node_p and node_p is Label:
+		player_label = node_p as Label
+	else:
+		player_label = null
+	var node_q = root.find_node("Queue", true, false)
+	if node_q and node_q is Label:
+		queue_label = node_q as Label
+	else:
+		queue_label = null
 
 	if player_label:
 		player_label.visible = true
 		player_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
 	else:
-		print("GUI_WARNING: Player_Perc label not found")
+		print("GUI_WARNING: Player_Perc label not found (searched entire tree)")
 	if queue_label:
 		queue_label.visible = true
 		queue_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
@@ -81,7 +83,7 @@ func _ready() -> void:
 		queue_label.vertical_alignment = 0
 		queue_label.autowrap = true
 	else:
-		print("GUI_WARNING: Queue label not found")
+		print("GUI_WARNING: Queue label not found (searched entire tree)")
 
 func _process(_delta: float) -> void:
 	var stats = _player_stats()
