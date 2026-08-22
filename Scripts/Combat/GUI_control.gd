@@ -118,7 +118,7 @@ func _ready() -> void:
 	else:
 		print("GUI_WARNING: Queue label not found (searched entire tree)")
 	# listen for nodes being added so we can pick up labels when the combat scene is instanced
-	get_tree().connect("node_added", callable(self, "_on_node_added"))
+	get_tree().connect("node_added", Callable(self, "_on_node_added"))
 
 func _find_label_by_text(start: Node, substr: String) -> Label:
 	if start == null:

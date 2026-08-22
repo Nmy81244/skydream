@@ -61,8 +61,12 @@ func _deferred_register_ui() -> void:
 	var queue_label = scene.get_node_or_null("UI/Control/Queue")
 	if not queue_label:
 		queue_label = scene.get_node_or_null("Queue")
-	if typeof(GUI_control) != TYPE_NIL and GUI_control.has_method("register_labels"):
-		GUI_control.register_labels(player_label, queue_label)
+	# Try to find any autoload/singleton that exposes register_labels and call it
+	var root = get_tree().get_root()
+	for child in root.get_children():
+		if child and child.has_method("register_labels"):
+			child.register_labels(player_label, queue_label)
+			break
 
 # Returns the queued action, or an empty array if the queue was full.
 # Pass the returned value to free_action() to release the slot.
