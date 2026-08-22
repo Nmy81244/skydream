@@ -8,8 +8,13 @@ var player_queue = []
 var enemy_queue = []
 var queue = []
 var queue_size = 6
+var battle_start_delay := 3.0
+var battle_start_time := 0.0
 
 var _last_printed_second := -1
+
+func action_speed_multiplier() -> float:
+	return randf_range(0.925, 1.075)
 
 func start_fight(enemies: Array, type: int):
 	current_encounter = enemies
@@ -19,7 +24,11 @@ func start_fight(enemies: Array, type: int):
 	player_queue.clear()
 	enemy_queue.clear()
 	queue.clear()
+	battle_start_time = GlobalDB.timer + battle_start_delay
 	get_tree().change_scene_to_file("res://Scenes/combat.tscn")
+
+func can_act() -> bool:
+	return GlobalDB.timer >= battle_start_time
 
 # Returns the queued action, or an empty array if the queue was full.
 # Pass the returned value to free_action() to release the slot.
@@ -29,6 +38,7 @@ func add_action(author: int, input_id: String, type: int, index: int = 0) -> Arr
 		duration = GlobalDB.spells(input_id).get("duration", 0.0)
 	else:
 		duration = 0.5
+	duration *= action_speed_multiplier()
 	var ind = queue.size()
 	var jnd = player_queue.size() if author else enemy_queue.size()
 	var action = [author, ind, jnd, input_id, type, duration, index]
@@ -74,6 +84,7 @@ func print_queue() -> void:
 
 func _process(_delta: float) -> void:
 	var seconds_passed := int(floor(GlobalDB.timer))
-	if seconds_passed != _last_printed_second:
-		_last_printed_second = seconds_passed
-		print_queue()
+	if seconds_passed == _last_printed_second:
+		return
+	_last_printed_second = seconds_passed
+	print_queue()

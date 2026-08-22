@@ -14,7 +14,12 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	while enemy_cooldowns.size() < enemies.size():
 		enemy_cooldowns.append(0.0)
-		
+	if not CombatLogic.can_act():
+		for enemy_i in range(enemies.size()):
+			if enemy_cooldowns[enemy_i] > 0.0:
+				enemy_cooldowns[enemy_i] -= delta
+		return
+	
 	for enemy_i in range(enemies.size()):
 		if enemy_cooldowns[enemy_i] > 0.0:
 			enemy_cooldowns[enemy_i] -= delta

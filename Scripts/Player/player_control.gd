@@ -101,10 +101,13 @@ func can_cast(spell_id: String) -> bool:
 	return mana >= spell.get("mana_cost", 0.0) and health > spell.get("health_cost", 0.0)
 
 func use_spell(spell_id: String, target: int = 0):
+	if not CombatLogic.can_act():
+		return
 	var spell = GlobalDB.spells(spell_id)
+	var speed_multiplier = CombatLogic.action_speed_multiplier()
 	var timestamp = GlobalDB.timer
-	var duration = spell.get("duration", 0.0)
-	var delay = spell.get("cooldown", spell.get("delay", 0.0))
+	var duration = spell.get("duration", 0.0) * speed_multiplier
+	var delay = spell.get("cooldown", spell.get("delay", 0.0)) * speed_multiplier
 	var applied_buffs = [
 		spell.get("atk_boost", 0.0),
 		spell.get("def_boost", 0.0),
@@ -158,19 +161,23 @@ func use_enemy_spell(spell_id: String, enemy_atk: int, enemy_pwr: int, enemy_cri
 		var gonna_crit: bool = randf_range(0, 100) <= crit_chance
 		var crit_multiplier: float = 1.5 if gonna_crit else 1.0
 		
-		var raw_damage: float = (enemy_pwr + spell_pwr) * crit_multiplier
+		var damage_multiplier: float = CombatLogic.action_speed_multiplier()
+		var raw_damage: float = (enemy_pwr + spell_pwr) * crit_multiplier * damage_multiplier
 		var final_damage: int = int(max(1, raw_damage - defense))
 		heal(-final_damage)
 
 func use_attack(target: int = 0):
+	if not CombatLogic.can_act():
+		return
 	if usable:
 		var enemies_node = _enemies_node()
 		if enemies_node and enemies_node.has_method("use_player_attack"):
 			enemies_node.use_player_attack(attack, crit, accuracy, target)
 
+		var speed_multiplier = CombatLogic.action_speed_multiplier()
 		var timestamp = GlobalDB.timer
-		var duration = 0.5 / (1.0 + speed / 20.0)
-		var delay = 1.0 / (1.0 + atk_spd / 10.0)
+		var duration = (0.5 / (1.0 + speed / 20.0)) * speed_multiplier
+		var delay = (1.0 / (1.0 + atk_spd / 10.0)) * speed_multiplier
 
 		var action = CombatLogic.add_action(1, dagger, 1, target)
 		if active_spells.size() < CombatLogic.queue_size / 2:
@@ -196,7 +203,8 @@ func use_enemy_attack(enemy_atk: int, enemy_crit: int, enemy_acc: int) -> void:
 		var gonna_crit: bool = randf_range(0, 100) <= crit_chance
 		var crit_multiplier: float = 1.5 if gonna_crit else 1.0
 		
-		var raw_damage: float = (enemy_atk + 5.0) * crit_multiplier
+		var damage_multiplier: float = CombatLogic.action_speed_multiplier()
+		var raw_damage: float = (enemy_atk + 5.0) * crit_multiplier * damage_multiplier
 		var final_damage: int = int(max(1, raw_damage - defense))
 		heal(-final_damage)
 		

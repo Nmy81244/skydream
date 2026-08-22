@@ -64,8 +64,11 @@ func rest(mrcv: int, target: int):
 		enemies[target].mana = clamp(enemies[target].mana, 0, enemies[target].max_mana)
 
 func use_spell(spell_id: String, target: int):
+	if not CombatLogic.can_act():
+		return
 	if target >= 0 and target < enemies.size():
 		var enemy = enemies[target]
+		var speed_multiplier = CombatLogic.action_speed_multiplier()
 		
 		if usable:
 			if PlayerStats.has_method("use_enemy_spell"):
@@ -77,8 +80,8 @@ func use_spell(spell_id: String, target: int):
 			
 			enemy.spell = GlobalDB.spells(spell_id)
 			enemy.timestamp = GlobalDB.timer
-			enemy.duration = enemy.spell.get("duration", 0.0) / (1.0 + enemy.speed/20.0)
-			enemy.delay = enemy.spell.get("cooldown", enemy.spell.get("delay", 0.0)) / (1.0 + enemy.speed/20.0)
+			enemy.duration = (enemy.spell.get("duration", 0.0) / (1.0 + enemy.speed/20.0)) * speed_multiplier
+			enemy.delay = (enemy.spell.get("cooldown", enemy.spell.get("delay", 0.0)) / (1.0 + enemy.speed/20.0)) * speed_multiplier
 			enemy.applied_buffs = [
 				enemy.spell.get("atk_boost", 0.0),
 				enemy.spell.get("def_boost", 0.0),
@@ -128,13 +131,17 @@ func use_player_spell(spell_id: String, player_atk: int, player_pwr: int, player
 			var gonna_crit: bool = randf_range(0, 100) <= crit_chance
 			var crit_multiplier: float = 1.5 if gonna_crit else 1.0
 			
-			var raw_damage: float = (player_pwr + spell_pwr) * crit_multiplier
+			var damage_multiplier: float = CombatLogic.action_speed_multiplier()
+			var raw_damage: float = (player_pwr + spell_pwr) * crit_multiplier * damage_multiplier
 			var final_damage: int = int(max(1, raw_damage - enemy.defense))
 			heal(-final_damage, target)
 
 func use_attack(target: int = 0):
+	if not CombatLogic.can_act():
+		return
 	if target >= 0 and target < enemies.size():
 		var enemy = enemies[target]
+		var speed_multiplier = CombatLogic.action_speed_multiplier()
 
 		if usable:
 			if PlayerStats.has_method("use_enemy_attack"):
@@ -145,8 +152,8 @@ func use_attack(target: int = 0):
 					player_node.use_enemy_attack(enemy.attack, enemy.crit, enemy.accuracy)
 			
 			enemy.timestamp = GlobalDB.timer
-			enemy.duration = 0.5 / (1.0 + enemy.speed/20.0)
-			enemy.delay = 1.0 / (1.0 + enemy.atk_spd/10.0)
+			enemy.duration = (0.5 / (1.0 + enemy.speed/20.0)) * speed_multiplier
+			enemy.delay = (1.0 / (1.0 + enemy.atk_spd/10.0)) * speed_multiplier
 			
 			CombatLogic.add_action(0, "000", 1, target)
 			if active_spells.size() < CombatLogic.queue_size / 2:
@@ -179,7 +186,8 @@ func use_player_attack(player_atk: int, player_crit: int, player_acc: int, targe
 			var gonna_crit: bool = randf_range(0, 100) <= crit_chance
 			var crit_multiplier: float = 1.5 if gonna_crit else 1.0
 
-			var raw_damage: float = (player_atk + dagger_atk) * crit_multiplier
+			var damage_multiplier: float = CombatLogic.action_speed_multiplier()
+			var raw_damage: float = (player_atk + dagger_atk) * crit_multiplier * damage_multiplier
 			var final_damage: int = int(max(1, raw_damage - enemy.defense))
 			heal(-final_damage, target)
 
