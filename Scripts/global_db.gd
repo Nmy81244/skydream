@@ -27,17 +27,9 @@ func _load_json(path: String) -> Dictionary:
 		return {}
 	var content = file.get_as_text()
 	var parsed = JSON.parse_string(content)
-	if typeof(parsed) == TYPE_OBJECT and parsed.has("error"):
-		# Godot 4's JSON.parse_string returns a JSONParseResult object
-		if parsed.error != OK:
-			push_error("GlobalDB: failed to parse %s (error %d)" % [path, parsed.error])
-			return {}
-		var result = parsed.result
-		if typeof(result) != TYPE_DICTIONARY:
-			push_error("GlobalDB: %s is not a valid JSON object" % path)
-			return {}
-		return result
-	# Fallback for older Godot versions where parse_string returned the dict directly
+	if parsed == null:
+		push_error("GlobalDB: failed to parse %s" % path)
+		return {}
 	if typeof(parsed) != TYPE_DICTIONARY:
 		push_error("GlobalDB: %s is not a valid JSON object" % path)
 		return {}

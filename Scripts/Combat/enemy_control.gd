@@ -68,9 +68,12 @@ func use_spell(spell_id: String, target: int):
 		var enemy = enemies[target]
 		
 		if usable:
-			var player_node = get_node_or_null("../Player")
-			if player_node and player_node.has_method("use_enemy_spell"):
-				player_node.use_enemy_spell(spell_id, enemy.attack, enemy.power, enemy.crit, enemy.accuracy)
+			if PlayerStats.has_method("use_enemy_spell"):
+				PlayerStats.use_enemy_spell(spell_id, enemy.attack, enemy.power, enemy.crit, enemy.accuracy)
+			else:
+				var player_node = get_node_or_null("../Player")
+				if player_node and player_node.has_method("use_enemy_spell"):
+					player_node.use_enemy_spell(spell_id, enemy.attack, enemy.power, enemy.crit, enemy.accuracy)
 			
 			enemy.spell = GlobalDB.spells(spell_id)
 			enemy.timestamp = GlobalDB.timer
@@ -134,9 +137,12 @@ func use_attack(target: int = 0):
 		var enemy = enemies[target]
 
 		if usable:
-			var player_node = get_node_or_null("../Player")
-			if player_node and player_node.has_method("use_enemy_attack"):
-				player_node.use_enemy_attack(enemy.attack, enemy.crit, enemy.accuracy)
+			if PlayerStats.has_method("use_enemy_attack"):
+				PlayerStats.use_enemy_attack(enemy.attack, enemy.crit, enemy.accuracy)
+			else:
+				var player_node = get_node_or_null("../Player")
+				if player_node and player_node.has_method("use_enemy_attack"):
+					player_node.use_enemy_attack(enemy.attack, enemy.crit, enemy.accuracy)
 			
 			enemy.timestamp = GlobalDB.timer
 			enemy.duration = 0.5 / (1.0 + enemy.speed/20.0)

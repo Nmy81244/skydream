@@ -44,8 +44,8 @@ func add_action(author: int, input_id: String, type: int, index: int = 0) -> Arr
 	queue.append(action)
 	return action
 
-func free_action(action_or_side, index := null) -> void:
-	# Accept either a queued action Array, or (is_player: bool, index: int)
+func free_action(action_or_side, index = null) -> void:
+	# Accept either a queued action Array, or (is_player: bool, index: int).
 	if index == null:
 		var action = action_or_side
 		if action.is_empty():
@@ -56,7 +56,6 @@ func free_action(action_or_side, index := null) -> void:
 			enemy_queue.erase(action)
 		queue.erase(action)
 		return
-	# Called as free_action(is_player: bool, index: int)
 	var is_player: bool = bool(action_or_side)
 	var i: int = int(index)
 	if is_player:
