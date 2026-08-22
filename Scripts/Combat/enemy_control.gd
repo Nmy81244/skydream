@@ -71,12 +71,13 @@ func use_spell(spell_id: String, target: int):
 		var speed_multiplier = CombatLogic.action_speed_multiplier()
 		
 		if usable:
+			var enemy_level = int(enemy.get("level", 1))
 			if PlayerStats.has_method("use_enemy_spell"):
-				PlayerStats.use_enemy_spell(spell_id, enemy.attack, enemy.power, enemy.crit, enemy.accuracy)
+				PlayerStats.use_enemy_spell(spell_id, enemy.attack, enemy.power, enemy.crit, enemy.accuracy, enemy_level)
 			else:
 				var player_node = get_node_or_null("../Player")
 				if player_node and player_node.has_method("use_enemy_spell"):
-					player_node.use_enemy_spell(spell_id, enemy.attack, enemy.power, enemy.crit, enemy.accuracy)
+					player_node.use_enemy_spell(spell_id, enemy.attack, enemy.power, enemy.crit, enemy.accuracy, enemy_level)
 			
 			enemy.spell = GlobalDB.spells(spell_id)
 			enemy.timestamp = GlobalDB.timer
@@ -121,7 +122,13 @@ func use_player_spell(spell_id: String, player_atk: int, player_pwr: int, player
 		var spell_crit: float = spell.get("crit", 0.0)
 		var spell_pwr: float = spell.get("power", 0.0)
 		
-		var hit_chance: float = player_acc + spell_acc - enemy.accuracy
+		# Apply level-based accuracy modifier (player vs enemy)
+		var player_level = 1
+		if typeof(PlayerStats) != TYPE_NIL:
+			player_level = int(PlayerStats.level)
+		var enemy_level = int(enemy.get("level", 1))
+		var atk_acc = CombatLogic.accuracy_with_level(player_acc, player_level, enemy_level)
+		var hit_chance: float = atk_acc + spell_acc - enemy.accuracy
 		var gonna_hit: bool = randf_range(0, 100) <= hit_chance
 		
 		if gonna_hit:
@@ -144,12 +151,13 @@ func use_attack(target: int = 0):
 		var speed_multiplier = CombatLogic.action_speed_multiplier()
 
 		if usable:
+			var enemy_level = int(enemy.get("level", 1))
 			if PlayerStats.has_method("use_enemy_attack"):
-				PlayerStats.use_enemy_attack(enemy.attack, enemy.crit, enemy.accuracy)
+				PlayerStats.use_enemy_attack(enemy.attack, enemy.crit, enemy.accuracy, enemy_level)
 			else:
 				var player_node = get_node_or_null("../Player")
 				if player_node and player_node.has_method("use_enemy_attack"):
-					player_node.use_enemy_attack(enemy.attack, enemy.crit, enemy.accuracy)
+					player_node.use_enemy_attack(enemy.attack, enemy.crit, enemy.accuracy, enemy_level)
 			
 			enemy.timestamp = GlobalDB.timer
 			enemy.duration = (0.5 / (1.0 + enemy.speed/20.0)) * speed_multiplier
@@ -176,7 +184,14 @@ func use_player_attack(player_atk: int, player_crit: int, player_acc: int, targe
 		var dagger_crit = dagger_data.get("crit", 6.0)
 		var dagger_atk = dagger_data.get("attack", 7.0)
 
-		var hit_chance: float = player_acc + dagger_acc - enemy.accuracy
+			# Apply level-based accuracy modifier for player attack
+		var player_level = 1
+		if typeof(PlayerStats) != TYPE_NIL:
+			player_level = int(PlayerStats.level)
+		var enemy_level = int(enemy.get("level", 1))
+		var total_attacker_acc = player_acc + dagger_acc
+		var atk_acc = CombatLogic.accuracy_with_level(total_attacker_acc, player_level, enemy_level)
+		var hit_chance: float = atk_acc - enemy.accuracy
 		var gonna_hit: bool = randf_range(0, 100) <= hit_chance
 
 		if gonna_hit:

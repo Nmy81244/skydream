@@ -16,6 +16,24 @@ var _last_printed_second := -1
 func action_speed_multiplier() -> float:
 	return randf_range(0.925, 1.075)
 
+func accuracy_with_level(acc: float, attacker_level: int, defender_level: int) -> float:
+	var diff = int(attacker_level) - int(defender_level)
+	var absd = abs(diff)
+	var ad = 0.0
+	if absd >= 7:
+		ad = 0.8
+	elif absd >= 5:
+		ad = 0.5
+	elif absd >= 3:
+		ad = 0.25
+	else:
+		ad = 0.0
+	if diff > 0:
+		return acc * (1.0 + ad)
+	elif diff < 0:
+		return acc * max(0.0, (1.0 - ad))
+	return acc
+
 func start_fight(enemies: Array, type: int):
 	current_encounter = enemies
 	enemy_count = enemies.size()
@@ -79,9 +97,51 @@ func free_action(action_or_side, index = null) -> void:
 			enemy_queue.remove_at(i)
 			queue.erase(act)
 
-func print_queue() -> void:
-	print("[CombatQueue] Total: %d/%d | Player: %s | Enemy: %s | Player | HP: %d/%d MP: %d/%d" % [queue.size(), queue_size, str(player_queue), str(enemy_queue), PlayerStats.health, PlayerStats.max_health, PlayerStats.mana, PlayerStats.max_mana])
+func _actor_name(author: int, index: int) -> String:
+	if author == 1:
+		return "Player"
+	if current_encounter.size() > index and index >= 0:
+		var enemy = current_encounter[index]
+		var enemy_data = GlobalDB.enemies(str(enemy))
+		var enemy_name = enemy_data.get("name", "Enemy")
+		return "%s %d" % [enemy_name, index + 1]
+	return "Enemy %d" % [index + 1]
 
+func _action_name(action: Array) -> String:
+	var action_type = int(action[4])
+	var input_id = str(action[3])
+	if action_type == 1:
+		if action[0] == 1:
+			return GlobalDB.daggers(input_id).get("name", "Attack")
+		return "Attack"
+	var spell = GlobalDB.spells(input_id)
+	return spell.get("name", "Spell")
+
+func _target_name(action: Array) -> String:
+	var is_player = action[0] == 1
+	var target_index = int(action[6])
+	if is_player:
+		if current_encounter.size() > target_index and target_index >= 0:
+			var enemy = current_encounter[target_index]
+			var enemy_data = GlobalDB.enemies(str(enemy))
+			var enemy_name = enemy_data.get("name", "Enemy")
+			return "%s %d" % [enemy_name, target_index + 1]
+		return "Enemy %d" % [target_index + 1]
+	return "Player"
+
+func queue_display() -> String:
+	if queue.is_empty():
+		return "<- Queue empty ->"
+	var lines: Array = []
+	for action in queue:
+		var actor = _actor_name(int(action[0]), int(action[2]))
+		var action_name = _action_name(action)
+		var target = _target_name(action)
+		lines.append("<- %s: %s => %s ->" % [actor, action_name, target])
+	return "\n".join(lines)
+
+func print_queue() -> void:
+	print("[CombatQueue] %s" % queue_display())
 func _process(_delta: float) -> void:
 	var seconds_passed := int(floor(GlobalDB.timer))
 	if seconds_passed == _last_printed_second:

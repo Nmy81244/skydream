@@ -75,15 +75,17 @@ animations = [{
 [sub_resource type="LabelSettings" id="LabelSettings_osjsv"]
 font_size = 72
 
+[sub_resource type="LabelSettings" id="LabelSettings_83bas"]
+line_spacing = 10.0
+paragraph_spacing = 10.0
+font_size = 48
+
 [node name="Combat" type="Node2D" unique_id=1054953121]
 script = ExtResource("1_syqip")
 
 [node name="BG" type="AnimatedSprite2D" parent="." unique_id=1053217128]
 sprite_frames = SubResource("SpriteFrames_83bas")
 frame_progress = 0.02047313
-
-[node name="Camera2D" type="Camera2D" parent="." unique_id=402603682]
-zoom = Vector2(0.24, 0.24)
 
 [node name="Enemies" type="Node2D" parent="." unique_id=1691180024]
 script = ExtResource("2_ga4lu")
@@ -163,17 +165,33 @@ parameters/looping = true
 
 [node name="Control" type="Control" parent="." unique_id=1269695898]
 layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("10_px7ba")
 
-[node name="Label" type="Label" parent="Control" unique_id=1652172777]
-layout_mode = 0
-offset_left = -265.0
-offset_top = -205.0
-offset_right = 377.0
-offset_bottom = 264.0
-text = "Health: %s
-Mana: %s"
+[node name="Player_Perc" type="Label" parent="Control" unique_id=1652172777]
+layout_mode = 1
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 240.0
+offset_bottom = 120.0
+text = "HP: 0%
+MP: 0%"
 label_settings = SubResource("LabelSettings_osjsv")
+
+[node name="Queue" type="Label" parent="Control" unique_id=1349519216]
+layout_mode = 1
+offset_left = 260.0
+offset_top = 20.0
+offset_right = 1020.0
+offset_bottom = 200.0
+text = "<- Queue empty ->"
+label_settings = SubResource("LabelSettings_83bas")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=402603682]
+zoom = Vector2(0.24, 0.24)

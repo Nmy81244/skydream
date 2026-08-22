@@ -145,13 +145,15 @@ func use_spell(spell_id: String, target: int = 0):
 		else:
 			CombatLogic.free_action(action)
 
-func use_enemy_spell(spell_id: String, enemy_atk: int, enemy_pwr: int, enemy_crit: int, enemy_acc: int) -> void:
+func use_enemy_spell(spell_id: String, enemy_atk: int, enemy_pwr: int, enemy_crit: int, enemy_acc: int, enemy_level: int = 1) -> void:
 	var spell = GlobalDB.spells(spell_id)
 	var spell_acc: float = spell.get("accuracy", 100.0)
 	var spell_crit: float = spell.get("crit", 0.0)
 	var spell_pwr: float = spell.get("power", 0.0)
 	
-	var hit_chance: float = enemy_acc + spell_acc - accuracy
+	# Adjust attacker accuracy based on level diff (enemy vs player)
+	var atk_acc = CombatLogic.accuracy_with_level(enemy_acc, enemy_level, level)
+	var hit_chance: float = atk_acc + spell_acc - accuracy
 	var gonna_hit: bool = randf_range(0, 100) <= hit_chance
 	
 	if gonna_hit:
@@ -192,8 +194,10 @@ func use_attack(target: int = 0):
 		else:
 			CombatLogic.free_action(action)
 
-func use_enemy_attack(enemy_atk: int, enemy_crit: int, enemy_acc: int) -> void:
-	var hit_chance: float = enemy_acc + 90.0 - accuracy
+func use_enemy_attack(enemy_atk: int, enemy_crit: int, enemy_acc: int, enemy_level: int = 1) -> void:
+	# Adjust attacker accuracy by level diff
+	var atk_acc = CombatLogic.accuracy_with_level(enemy_acc, enemy_level, level)
+	var hit_chance: float = atk_acc + 90.0 - accuracy
 	var gonna_hit: bool = randf_range(0, 100) <= hit_chance
 	
 	if gonna_hit:
