@@ -68,6 +68,35 @@ func _find_label_by_name(start: Node, target_name: String) -> Label:
 			return found
 	return null
 
+func register_labels(p_label: Label, q_label: Label) -> void:
+	# Public API for scenes to explicitly register the UI labels with the singleton
+	if p_label and p_label is Label:
+		player_label = p_label
+		player_label.visible = true
+		player_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+	if q_label and q_label is Label:
+		queue_label = q_label
+		queue_label.visible = true
+		queue_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+		queue_label.horizontal_alignment = 0
+		queue_label.vertical_alignment = 0
+	return
+
+func _on_node_added(node: Node) -> void:
+	# Called when nodes are added; useful if a scene instantiates later and we need to pick up labels
+	if not node:
+		return
+	if not player_label and node.name == "Player_Perc" and node is Label:
+		player_label = node
+		player_label.visible = true
+		player_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+	if not queue_label and node.name == "Queue" and node is Label:
+		queue_label = node
+		queue_label.visible = true
+		queue_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+		queue_label.horizontal_alignment = 0
+		queue_label.vertical_alignment = 0
+
 func _ready() -> void:
 	# Resolve label nodes defensively. Support running as an autoload/singleton or as a Control in the scene.
 	var root = get_tree().get_root()
@@ -88,6 +117,8 @@ func _ready() -> void:
 		queue_label.vertical_alignment = 0
 	else:
 		print("GUI_WARNING: Queue label not found (searched entire tree)")
+	# listen for nodes being added so we can pick up labels when the combat scene is instanced
+	get_tree().connect("node_added", callable(self, "_on_node_added"))
 
 func _find_label_by_text(start: Node, substr: String) -> Label:
 	if start == null:
