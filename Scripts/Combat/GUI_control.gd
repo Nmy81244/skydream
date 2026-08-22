@@ -90,7 +90,44 @@ func _ready() -> void:
 	else:
 		print("GUI_WARNING: Queue label not found (searched entire tree)")
 
+func _ensure_labels() -> void:
+	# Ensure player_label and queue_label reference valid Label instances attached to the scene tree.
+	if player_label and is_instance_valid(player_label) and player_label.is_inside_tree():
+		pass
+	else:
+		# search current scene first (more specific), then root
+		var scene = get_tree().get_current_scene()
+		var found = scene and _find_label_by_name(scene, "Player_Perc")
+		if found:
+			player_label = found
+		else:
+			var root = get_tree().get_root()
+			player_label = _find_label_by_name(root, "Player_Perc")
+		# apply visual defaults
+		if player_label:
+			player_label.visible = true
+			player_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+
+	if queue_label and is_instance_valid(queue_label) and queue_label.is_inside_tree():
+		pass
+	else:
+		var scene = get_tree().get_current_scene()
+		var found_q = scene and _find_label_by_name(scene, "Queue")
+		if found_q:
+			queue_label = found_q
+		else:
+			var root = get_tree().get_root()
+			queue_label = _find_label_by_name(root, "Queue")
+		if queue_label:
+			queue_label.visible = true
+			queue_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+			queue_label.horizontal_alignment = 0
+			queue_label.vertical_alignment = 0
+			queue_label.autowrap = true
+
 func _process(_delta: float) -> void:
+	# make sure labels are valid before trying to update them
+	_ensure_labels()
 	var stats = _player_stats()
 	var hp = int(stats["health"])
 	var mhp = int(stats["max_health"])
@@ -99,21 +136,8 @@ func _process(_delta: float) -> void:
 	var queue_text = CombatLogic.queue_display() if CombatLogic.has_method("queue_display") else "<- Queue empty ->"
 	if player_label:
 		player_label.text = "HP: %d/%d\nMP: %d/%d" % [hp, mhp, mp, mmp]
-	else:
-		# Try to resolve it at runtime if missing (search entire tree)
-		var root = get_tree().get_root()
-		var _node = _find_label_by_name(root, "Player_Perc")
-		player_label = _node
-		if player_label:
-			player_label.text = "HP: %d/%d\nMP: %d/%d" % [hp, mhp, mp, mmp]
 	if queue_label:
 		queue_label.text = queue_text if not queue_text.is_empty() else "<- Queue empty ->"
-	else:
-		var root = get_tree().get_root()
-		var _qnode = _find_label_by_name(root, "Queue")
-		queue_label = _qnode
-		if queue_label:
-			queue_label.text = queue_text if not queue_text.is_empty() else "<- Queue empty ->"
 
 	# Debug log once per second so user can see what values the GUI reads
 	if typeof(GlobalDB) != TYPE_NIL:
