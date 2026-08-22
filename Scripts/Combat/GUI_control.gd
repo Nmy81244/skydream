@@ -169,8 +169,20 @@ func _ensure_labels() -> void:
 		if queue_label:
 			queue_label.visible = true
 			queue_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+			# Center the queue label in the middle of the screen with a reasonable size
 			queue_label.horizontal_alignment = 1
 			queue_label.vertical_alignment = 1
+			# Use center anchors and symmetric offsets to position the rect at center
+			if "anchor_left" in queue_label:
+				queue_label.anchor_left = 0.5
+				queue_label.anchor_right = 0.5
+				queue_label.anchor_top = 0.5
+				queue_label.anchor_bottom = 0.5
+				# symmetric offsets (width ~ 600, height ~ 220)
+				queue_label.offset_left = -300
+				queue_label.offset_right = 300
+				queue_label.offset_top = -110
+				queue_label.offset_bottom = 110
 
 func _process(_delta: float) -> void:
 	# make sure labels are valid before trying to update them
