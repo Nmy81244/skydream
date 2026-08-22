@@ -90,7 +90,16 @@ func heal(hpwr: int):
 func rest(mrcv: int):
 	mana += mrcv
 	mana = clamp(mana, 0, max_mana)
-	
+
+# PlayerStats is an autoload, so the combat scene's "Enemies" node is not a
+# sibling of it. Look the node up by group instead of by relative path.
+func _enemies_node() -> Node:
+	return get_tree().get_first_node_in_group("enemy_manager")
+
+func can_cast(spell_id: String) -> bool:
+	var spell = GlobalDB.spells(spell_id)
+	return mana >= spell.get("mana_cost", 0.0) and health > spell.get("health_cost", 0.0)
+
 func use_spell(spell_id: String, target: int = 0):
 	var spell = GlobalDB.spells(spell_id)
 	var timestamp = GlobalDB.timer
@@ -103,20 +112,22 @@ func use_spell(spell_id: String, target: int = 0):
 		spell.get("crit_boost", 0.0),
 		spell.get("spd_boost", 0.0)
 	]
-	
-	if usable:
-		var enemies_node = get_node_or_null("../Enemies")
+
+	if usable and can_cast(spell_id):
+		var enemies_node = _enemies_node()
 		if enemies_node and enemies_node.has_method("use_player_spell"):
 			enemies_node.use_player_spell(spell_id, attack, power, crit, accuracy, target)
 
+		var action: Array = []
 		if spell.get("element", 0.0) != 0:
-			CombatLogic.add_action(1, spell_id, 2, target)
-		
+			action = CombatLogic.add_action(1, spell_id, 2, target)
+
 		heal(-int(spell.get("health_cost", 0.0)))
 		rest(-int(spell.get("mana_cost", 0.0)))
 		if active_spells.size() < CombatLogic.queue_size / 2:
 			active_spells.append({
 				"id": spell_id,
+				"action": action,
 				"timestamp": timestamp,
 				"duration": duration,
 				"delay": delay,
@@ -128,6 +139,8 @@ func use_spell(spell_id: String, target: int = 0):
 			current_buffs.crit += applied_buffs[3]
 			current_buffs.spd += applied_buffs[4]
 			update_stats()
+		else:
+			CombatLogic.free_action(action)
 
 func use_enemy_spell(spell_id: String, enemy_atk: int, enemy_pwr: int, enemy_crit: int, enemy_acc: int) -> void:
 	var spell = GlobalDB.spells(spell_id)
@@ -151,23 +164,26 @@ func use_enemy_spell(spell_id: String, enemy_atk: int, enemy_pwr: int, enemy_cri
 
 func use_attack(target: int = 0):
 	if usable:
-		var enemies_node = get_node_or_null("../Enemies")
+		var enemies_node = _enemies_node()
 		if enemies_node and enemies_node.has_method("use_player_attack"):
 			enemies_node.use_player_attack(attack, crit, accuracy, target)
-		
+
 		var timestamp = GlobalDB.timer
 		var duration = 0.5 / (1.0 + speed / 20.0)
 		var delay = 1.0 / (1.0 + atk_spd / 10.0)
-		
-		CombatLogic.add_action(1, dagger, 1, target)
+
+		var action = CombatLogic.add_action(1, dagger, 1, target)
 		if active_spells.size() < CombatLogic.queue_size / 2:
 			active_spells.append({
 				"id": dagger,
+				"action": action,
 				"timestamp": timestamp,
 				"duration": duration,
 				"delay": delay,
 				"applied_buffs": [0.0, 0.0, 0.0, 0.0, 0.0]
 			})
+		else:
+			CombatLogic.free_action(action)
 
 func use_enemy_attack(enemy_atk: int, enemy_crit: int, enemy_acc: int) -> void:
 	var hit_chance: float = enemy_acc + 90.0 - accuracy
