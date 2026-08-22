@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 GlobalDB="*uid://dxh8jh1r1o6wb"
 PlayerStats="*uid://p48mj6udasx1"
 CombatLogic="*uid://dhq3gwv3mjnk2"
+InventoryManager="*uid://dcivinagskdqs"
 
 [display]
 

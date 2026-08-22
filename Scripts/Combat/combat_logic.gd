@@ -51,8 +51,12 @@ func free_action(author: bool, index: int):
 			queue.erase(action)
 
 func print_queue() -> void:
-	print("[CombatQueue] Total: %d/%d | Player: %s | Enemy: %s" % [queue.size(), queue_size, str(player_queue), str(enemy_queue)])
+	print("[CombatQueue] Total: %d/%d | Player: %s | Enemy: %s | Player | HP: %d/%d MP: %s/%s" % [queue.size(), queue_size, str(player_queue), str(enemy_queue), PlayerStats.health, PlayerStats.max_health, PlayerStats.mana, PlayerStats.max_mana])
 
 func _process(delta: float) -> void:
-	print_queue()
+	var seconds_passed
+	if seconds_passed != floor(GlobalDB.timer):
+		seconds_passed = floor(GlobalDB.timer)
+
+		print_queue()
 	pass

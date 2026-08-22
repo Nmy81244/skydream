@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dhcmsut7euw0h" path="res://Loose/Sprites/DS _ DSi - Pokemon Black _ White - Miscellaneous - Large Mugs.png" id="6_fvoc2"]
 [ext_resource type="AudioStream" uid="uid://djt52xwcsagq4" path="res://Loose/Music/toby_fox_-_Here_We_Are_true_lab_(mp3.pm).mp3" id="7_v7dqf"]
 [ext_resource type="Script" uid="uid://p48mj6udasx1" path="res://Scripts/Player/player_control.gd" id="8_sweqy"]
+[ext_resource type="Script" uid="uid://w41e777sq65p" path="res://Scripts/Combat/GUI_control.gd" id="10_px7ba"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_83bas"]
 animations = [{
@@ -70,6 +71,9 @@ animations = [{
 "name": &"default",
 "speed": 5.0
 }]
+
+[sub_resource type="LabelSettings" id="LabelSettings_osjsv"]
+font_size = 72
 
 [node name="Combat" type="Node2D" unique_id=1054953121]
 script = ExtResource("1_syqip")
@@ -156,3 +160,20 @@ position = Vector2(-429, 147)
 stream = ExtResource("7_v7dqf")
 autoplay = true
 parameters/looping = true
+
+[node name="Control" type="Control" parent="." unique_id=1269695898]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("10_px7ba")
+
+[node name="Label" type="Label" parent="Control" unique_id=1652172777]
+layout_mode = 0
+offset_left = -265.0
+offset_top = -205.0
+offset_right = 377.0
+offset_bottom = 264.0
+text = "Health: %s
+Mana: %s"
+label_settings = SubResource("LabelSettings_osjsv")

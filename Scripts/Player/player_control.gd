@@ -29,7 +29,7 @@ var speed = 0
 
 var soul = "001"
 var dagger = "001"
-var tome = "000"
+var tome = "001"
 var main_charm = "001"
 var sec_charm = "000"
 
@@ -209,12 +209,19 @@ func update_stats():
 	accuracy = base_accuracy + current_buffs.acc + GlobalDB.tomes(tome)["accuracy"] + GlobalDB.charms(main_charm)["accuracy"] + GlobalDB.charms(sec_charm)["accuracy"] + GlobalDB.daggers(dagger)["accuracy"] + GlobalDB.souls(soul)["accuracy"]
 	crit = base_crit + current_buffs.crit + GlobalDB.tomes(tome)["crit"] + GlobalDB.charms(main_charm)["crit"] + GlobalDB.charms(sec_charm)["crit"] + GlobalDB.daggers(dagger)["crit"] + GlobalDB.souls(soul)["crit"]
 
-func get_spells():
+func get_spells() -> Array:
 	var spells = []
+	for i in range(1, 10):
+		var spell_id = soul + tome + str(i)
+		if GlobalDB.spells_data.has(spell_id):
+			spells.append(GlobalDB.spells(spell_id))
+	return spells
 	
 
 func _ready() -> void:
 	update_stats()
+	health = max_health
+	mana = max_mana
 
 func _process(delta: float) -> void:
 	#print(health)

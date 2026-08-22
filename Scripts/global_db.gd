@@ -38,7 +38,7 @@ func charms(id: String) -> Dictionary:
 	return charms_data.get(id, charms_data.get("000"))
 
 func spells(id: String) -> Dictionary:
-	return spells_data.get(id, spells_data.get("000"))
+	return spells_data.get(id, spells_data.get("0000001"))
 
 func consumables(id: String) -> Dictionary:
 	return consumables_data.get(id, consumables_data.get("000"))
