@@ -44,9 +44,25 @@ func start_fight(enemies: Array, type: int):
 	queue.clear()
 	battle_start_time = GlobalDB.timer + battle_start_delay
 	get_tree().change_scene_to_file("res://Scenes/combat.tscn")
+	# Defer registering UI labels with the GUI singleton so the scene has time to instantiate
+	call_deferred("_deferred_register_ui")
 
 func can_act() -> bool:
 	return GlobalDB.timer >= battle_start_time
+
+func _deferred_register_ui() -> void:
+	var scene = get_tree().get_current_scene()
+	if not scene:
+		return
+	# try to find labels in the scene and register them with the GUI singleton if available
+	var player_label = scene.get_node_or_null("UI/Control/Player_Perc")
+	if not player_label:
+		player_label = scene.get_node_or_null("Player_Perc")
+	var queue_label = scene.get_node_or_null("UI/Control/Queue")
+	if not queue_label:
+		queue_label = scene.get_node_or_null("Queue")
+	if typeof(GUI_control) != TYPE_NIL and GUI_control.has_method("register_labels"):
+		GUI_control.register_labels(player_label, queue_label)
 
 # Returns the queued action, or an empty array if the queue was full.
 # Pass the returned value to free_action() to release the slot.
