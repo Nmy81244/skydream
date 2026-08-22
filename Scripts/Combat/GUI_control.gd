@@ -56,21 +56,21 @@ func _player_stats() -> Dictionary:
 
 var _last_debug_second := -1
 
+# Some root types (Window) don't implement find_node; use recursive search helper instead
+func _find_label_by_name(start: Node, target_name: String) -> Label:
+	if start == null:
+		return null
+	if start.name == target_name and start is Label:
+		return start as Label
+	for child in start.get_children():
+		var found = _find_label_by_name(child, target_name)
+		if found:
+			return found
+	return null
+
 func _ready() -> void:
 	# Resolve label nodes defensively. Support running as an autoload/singleton or as a Control in the scene.
 	var root = get_tree().get_root()
-	# Some root types (Window) don't implement find_node; use recursive search helper instead
-	func _find_label_by_name(start: Node, target_name: String) -> Label:
-		if start == null:
-			return null
-		if start.name == target_name and start is Label:
-			return start as Label
-		for child in start.get_children():
-			var found = _find_label_by_name(child, target_name)
-			if found:
-				return found
-		return null
-	
 	var node_p = _find_label_by_name(root, "Player_Perc")
 	player_label = node_p
 	var node_q = _find_label_by_name(root, "Queue")
