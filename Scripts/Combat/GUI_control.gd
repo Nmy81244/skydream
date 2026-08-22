@@ -194,8 +194,14 @@ func _process(_delta: float) -> void:
 	var mmp = int(stats["max_mana"])
 	var queue_text = CombatLogic.queue_display() if CombatLogic.has_method("queue_display") else "<- Queue empty ->"
 	if player_label:
+		# Ensure player label text alignment is left/top
+		player_label.horizontal_alignment = 0
+		player_label.vertical_alignment = 0
 		player_label.text = "HP: %d/%d\nMP: %d/%d" % [hp, mhp, mp, mmp]
 	if queue_label:
+		# Ensure queue label text is centered both horizontally and vertically
+		queue_label.horizontal_alignment = 1
+		queue_label.vertical_alignment = 1
 		queue_label.text = queue_text if not queue_text.is_empty() else "<- Queue empty ->"
 
 	# Debug log once per second so user can see what values the GUI reads
