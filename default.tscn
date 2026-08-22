@@ -135,7 +135,11 @@ z_index = 6
 motion_mode = 1
 
 [node name="Camera2D" type="Camera2D" parent="world/Player" unique_id=1680574608]
+zoom = Vector2(2.5, 2.5)
+limit_smoothed = true
 position_smoothing_enabled = true
+rotation_smoothing_enabled = true
+editor_draw_limits = true
 
 [node name="Nebulae" type="Area2D" parent="world" unique_id=1764510949]
 position = Vector2(237, 97)

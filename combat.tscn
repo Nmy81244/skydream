@@ -81,6 +81,7 @@ paragraph_spacing = 10.0
 font_size = 48
 
 [node name="Combat" type="Node2D" unique_id=1054953121]
+scale = Vector2(0.675, 0.675)
 script = ExtResource("1_syqip")
 
 [node name="BG" type="AnimatedSprite2D" parent="." unique_id=1053217128]
@@ -174,24 +175,23 @@ script = ExtResource("10_px7ba")
 
 [node name="Player_Perc" type="Label" parent="Control" unique_id=1652172777]
 layout_mode = 1
-offset_left = 20.0
-offset_top = 20.0
-offset_right = 240.0
-offset_bottom = 120.0
+offset_left = -322.96295
+offset_top = 303.7037
+offset_right = -70.96295
+offset_bottom = 504.7037
 text = "HP: 0%
 MP: 0%"
 label_settings = SubResource("LabelSettings_osjsv")
 
 [node name="Queue" type="Label" parent="Control" unique_id=1349519216]
 layout_mode = 1
-offset_left = 260.0
-offset_top = 20.0
-offset_right = 1020.0
-offset_bottom = 200.0
+offset_left = 84.44444
+offset_top = 308.14813
+offset_right = 844.44446
+offset_bottom = 488.14813
 text = "<- Queue empty ->"
 label_settings = SubResource("LabelSettings_83bas")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=402603682]
-zoom = Vector2(0.24, 0.24)
