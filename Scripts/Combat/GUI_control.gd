@@ -169,8 +169,8 @@ func _ensure_labels() -> void:
 		if queue_label:
 			queue_label.visible = true
 			queue_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
-			queue_label.horizontal_alignment = 0
-			queue_label.vertical_alignment = 0
+			queue_label.horizontal_alignment = 1
+			queue_label.vertical_alignment = 1
 
 func _process(_delta: float) -> void:
 	# make sure labels are valid before trying to update them
