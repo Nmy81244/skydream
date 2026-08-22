@@ -90,34 +90,52 @@ func _ready() -> void:
 	else:
 		print("GUI_WARNING: Queue label not found (searched entire tree)")
 
+func _find_label_by_text(start: Node, substr: String) -> Label:
+	if start == null:
+		return null
+	if start is Label:
+		var txt = String(start.text)
+		if txt.findn(substr) != -1:
+			return start as Label
+	for child in start.get_children():
+		var found = _find_label_by_text(child, substr)
+		if found:
+			return found
+	return null
+
 func _ensure_labels() -> void:
 	# Ensure player_label and queue_label reference valid Label instances attached to the scene tree.
-	if player_label and is_instance_valid(player_label) and player_label.is_inside_tree():
-		pass
-	else:
-		# search current scene first (more specific), then root
-		var scene = get_tree().get_current_scene()
+	var scene = get_tree().get_current_scene()
+	# PLAYER label: try by name, then by searching for a label that already displays HP text
+	if not (player_label and is_instance_valid(player_label) and player_label.is_inside_tree()):
 		var found = scene and _find_label_by_name(scene, "Player_Perc")
-		if found:
-			player_label = found
-		else:
+		if not found:
 			var root = get_tree().get_root()
-			player_label = _find_label_by_name(root, "Player_Perc")
-		# apply visual defaults
+			found = _find_label_by_name(root, "Player_Perc")
+		# fallback: find any Label containing 'HP:' (scene-local first)
+		if not found and scene:
+			found = _find_label_by_text(scene, "HP:")
+		if not found:
+			found = _find_label_by_text(get_tree().get_root(), "HP:")
+		player_label = found
 		if player_label:
 			player_label.visible = true
 			player_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
 
-	if queue_label and is_instance_valid(queue_label) and queue_label.is_inside_tree():
-		pass
-	else:
-		var scene = get_tree().get_current_scene()
+	# QUEUE label: try by name, then fallback to searching for text like '<- Queue' or 'Queue empty'
+	if not (queue_label and is_instance_valid(queue_label) and queue_label.is_inside_tree()):
 		var found_q = scene and _find_label_by_name(scene, "Queue")
-		if found_q:
-			queue_label = found_q
-		else:
+		if not found_q:
 			var root = get_tree().get_root()
-			queue_label = _find_label_by_name(root, "Queue")
+			found_q = _find_label_by_name(root, "Queue")
+		# fallback: find any Label containing 'Queue' or '<-'
+		if not found_q and scene:
+			found_q = _find_label_by_text(scene, "Queue")
+		if not found_q:
+			found_q = _find_label_by_text(get_tree().get_root(), "Queue")
+		if not found_q:
+			found_q = _find_label_by_text(get_tree().get_root(), "<-")
+		queue_label = found_q
 		if queue_label:
 			queue_label.visible = true
 			queue_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
