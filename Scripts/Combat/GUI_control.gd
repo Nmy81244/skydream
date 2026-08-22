@@ -59,17 +59,22 @@ var _last_debug_second := -1
 func _ready() -> void:
 	# Resolve label nodes defensively. Support running as an autoload/singleton or as a Control in the scene.
 	var root = get_tree().get_root()
-	# find_node(name, recursive=true, owned=true) - search entire tree for nodes named Player_Perc / Queue
-	var node_p = root.find_node("Player_Perc", true, false)
-	if node_p and node_p is Label:
-		player_label = node_p as Label
-	else:
-		player_label = null
-	var node_q = root.find_node("Queue", true, false)
-	if node_q and node_q is Label:
-		queue_label = node_q as Label
-	else:
-		queue_label = null
+	# Some root types (Window) don't implement find_node; use recursive search helper instead
+	func _find_label_by_name(start: Node, target_name: String) -> Label:
+		if start == null:
+			return null
+		if start.name == target_name and start is Label:
+			return start as Label
+		for child in start.get_children():
+			var found = _find_label_by_name(child, target_name)
+			if found:
+				return found
+		return null
+	
+	var node_p = _find_label_by_name(root, "Player_Perc")
+	player_label = node_p
+	var node_q = _find_label_by_name(root, "Queue")
+	queue_label = node_q
 
 	if player_label:
 		player_label.visible = true
@@ -97,22 +102,16 @@ func _process(_delta: float) -> void:
 	else:
 		# Try to resolve it at runtime if missing (search entire tree)
 		var root = get_tree().get_root()
-		var _node = root.find_node("Player_Perc", true, false)
-		if _node and _node is Label:
-			player_label = _node as Label
-		else:
-			player_label = null
+		var _node = _find_label_by_name(root, "Player_Perc")
+		player_label = _node
 		if player_label:
 			player_label.text = "HP: %d/%d\nMP: %d/%d" % [hp, mhp, mp, mmp]
 	if queue_label:
 		queue_label.text = queue_text if not queue_text.is_empty() else "<- Queue empty ->"
 	else:
 		var root = get_tree().get_root()
-		var _qnode = root.find_node("Queue", true, false)
-		if _qnode and _qnode is Label:
-			queue_label = _qnode as Label
-		else:
-			queue_label = null
+		var _qnode = _find_label_by_name(root, "Queue")
+		queue_label = _qnode
 		if queue_label:
 			queue_label.text = queue_text if not queue_text.is_empty() else "<- Queue empty ->"
 
