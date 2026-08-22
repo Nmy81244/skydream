@@ -175,7 +175,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-script = ExtResource("10_px7ba")
 
 [node name="Player_Perc" type="Label" parent="Control" unique_id=1652172777]
 layout_mode = 1

@@ -95,26 +95,24 @@ func _process(_delta: float) -> void:
 	if player_label:
 		player_label.text = "HP: %d/%d\nMP: %d/%d" % [hp, mhp, mp, mmp]
 	else:
-		# Try to resolve it at runtime if missing
-		var _node = get_node_or_null("Player_Perc")
-		if _node == null:
-			_node = get_node_or_null("UI/Control/Player_Perc")
-		if _node == null:
-			var _scene = get_tree().get_current_scene()
-			_node = _scene.get_node_or_null("Player_Perc") if _scene else null
-		player_label = _node
+		# Try to resolve it at runtime if missing (search entire tree)
+		var root = get_tree().get_root()
+		var _node = root.find_node("Player_Perc", true, false)
+		if _node and _node is Label:
+			player_label = _node as Label
+		else:
+			player_label = null
 		if player_label:
 			player_label.text = "HP: %d/%d\nMP: %d/%d" % [hp, mhp, mp, mmp]
 	if queue_label:
 		queue_label.text = queue_text if not queue_text.is_empty() else "<- Queue empty ->"
 	else:
-		var _qnode = get_node_or_null("Queue")
-		if _qnode == null:
-			_qnode = get_node_or_null("UI/Control/Queue")
-		if _qnode == null:
-			var _scene = get_tree().get_current_scene()
-			_qnode = _scene.get_node_or_null("Queue") if _scene else null
-		queue_label = _qnode
+		var root = get_tree().get_root()
+		var _qnode = root.find_node("Queue", true, false)
+		if _qnode and _qnode is Label:
+			queue_label = _qnode as Label
+		else:
+			queue_label = null
 		if queue_label:
 			queue_label.text = queue_text if not queue_text.is_empty() else "<- Queue empty ->"
 
