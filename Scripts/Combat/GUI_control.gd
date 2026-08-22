@@ -86,7 +86,6 @@ func _ready() -> void:
 		queue_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
 		queue_label.horizontal_alignment = 0
 		queue_label.vertical_alignment = 0
-		queue_label.autowrap = true
 	else:
 		print("GUI_WARNING: Queue label not found (searched entire tree)")
 
@@ -141,7 +140,6 @@ func _ensure_labels() -> void:
 			queue_label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
 			queue_label.horizontal_alignment = 0
 			queue_label.vertical_alignment = 0
-			queue_label.autowrap = true
 
 func _process(_delta: float) -> void:
 	# make sure labels are valid before trying to update them
